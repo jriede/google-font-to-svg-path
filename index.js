@@ -26,7 +26,10 @@ var App = /** @class */ (function () {
         this.bezierAccuracy = this.$('#input-bezier-accuracy');
         this.sizeInput = this.$('#input-size');
         this.renderDiv = this.$('#svg-render');
+        this.otDiv = this.$('#opentype-render');
+        this.otcvs = this.$('#otc');
         this.outputTextarea = this.$('#output-svg');
+        this.pathTextarea = this.$('#output-path');
     };
     App.prototype.handleEvents = function () {
         this.selectFamily.onchange = this.loadVariants;
@@ -66,8 +69,15 @@ var App = /** @class */ (function () {
                 }
             }
             var svg = makerjs.exporter.toSVG(textModel);
+            var pathi = font.getPaths(text, 0, 150, size);
             _this.renderDiv.innerHTML = svg;
             _this.outputTextarea.value = svg;
+            var ctx = _this.otcvs.getContext('2d');
+            ctx.clearRect(0,0,size,size);
+            var pathii = font.getPath(text, 0, 150, size);
+            pathii.draw(ctx);
+            _this.pathTextarea.value = JSON.stringify(pathi);
+
         });
     };
     return App;
@@ -75,5 +85,5 @@ var App = /** @class */ (function () {
 var app = new App();
 window.onload = function () {
     app.init();
-    app.getGoogleFonts('AIzaSyAOES8EmKhuJEnsn9kS1XKBpxxp-TgN8Jc');
+    app.getGoogleFonts('AIzaSyCZXgLNQlfUdlD9ktCQ99PQwPqO6o1Z7QM');
 };
